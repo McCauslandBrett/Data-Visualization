@@ -134,7 +134,21 @@ def Boxplots(data,title,Ylabel,Xlabel):
  plt.savefig(filename)
  plt.close()
  return
-
+def GenerateAllscatter(data,classes,classranges):
+    headers=list(data)
+    headers.pop()
+    numcol=headers.size
+    numclass=classranges.size-1
+    for k in range(numclasses):
+      for i in range(numclasses):
+        for j=i+1 in range(numcol):
+            x=data.iloc[classranges[k]:classranges[k+1],i].values
+            y=data.iloc[classranges[k]:classranges[k+1],j].values
+            plt.scatter(x,y)
+            plt.xlabel(headers[i])
+            plt.ylabel(headers[j])
+            plt.title(headers[i]+' & '+headers[j])
+    return
 #----------- Question 1: Feature distribution ----------
 # 1)
    #import the data set

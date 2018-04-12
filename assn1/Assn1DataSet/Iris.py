@@ -135,26 +135,35 @@ def Boxplots(data,title,Ylabel,Xlabel):
  plt.close()
  return
 def GenerateAllscatter(data,classes,classranges):
+    classes = data.iloc[:,4].values  
     headers=list(data)
+    #print(classes)
     headers.pop()
-    numcol=headers.size
-    numclass=classranges.size-1
-    for k in range(numclasses):
-      for i in range(numclasses):
-        for j=i+1 in range(numcol):
+    
+    numAttributes=len(headers)
+    numcol=len(headers)
+    numclass=(len(classranges)-1)
+    print(numclass)
+    for k in range(numclass):
+      for i in range(numcol):
+        for j in range(i+1,numcol):
             x=data.iloc[classranges[k]:classranges[k+1],i].values
             y=data.iloc[classranges[k]:classranges[k+1],j].values
             plt.scatter(x,y)
             plt.xlabel(headers[i])
             plt.ylabel(headers[j])
             plt.title(headers[i]+' & '+headers[j])
+            print('class flower='+classes[classranges[k]])
+            print('attribute pair='+headers[i]+','+headers[j])
+            plt.savefig(classes[classranges[k]]+' '+headers[i]+' '+headers[j])
+            plt.close()
     return
 #----------- Question 1: Feature distribution ----------
 # 1)
    #import the data set
-data=pd.read_csv('IrisDataSet.csv')
-headers=list(data) # get every column(attribute) title
-headers.pop() #remove the class column
+#data=pd.read_csv('IrisDataSet.csv')
+#headers=list(data) # get every column(attribute) title
+#headers.pop() #remove the class column
 #classes=[]
 #classranges=[]
 #Gatherclasses(data,classes,classranges)
@@ -163,16 +172,21 @@ headers.pop() #remove the class column
 
 # 2) [20%] For the same data (organized in the same way as above), 
 # plot their Box-plots. You may use a library function for this.
-classes=[]
-classranges=[]
-Gatherclasses(data,classes,classranges)
+#classes=[]
+#classranges=[]
+#Gatherclasses(data,classes,classranges)
 #df = data.iloc[classranges[0]:classranges[1],0].values 
 #Boxplots(df,'title','ylabel','xlabel')
 #(data,headers,classes,classranges)
-GenerateBoxplots(data,headers,classes,classranges)
+#GenerateBoxplots(data,headers,classes,classranges)
 
-
-
-
-
+# Question 2: Relations between features and data points  [60%]
+# 1) [20%]  Correlation Plots 
+data=pd.read_csv('IrisDataSet.csv')
+headers=list(data) # get every column(attribute) title
+headers.pop() #remove the class column
+classes=[]
+classranges=[]
+Gatherclasses(data,classes,classranges)
+GenerateAllscatter(data,classes,classranges)
 

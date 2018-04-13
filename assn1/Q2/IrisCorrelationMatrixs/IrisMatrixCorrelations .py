@@ -89,6 +89,26 @@ def GenerateAllCorrelationMatrixes():
     return
 def GenerateCorrelationMatrix():
     return
+def correlation(x,y):
+    meanX= np.mean(x)
+    meanY = np.mean(y)
+    #calculate deviation scores
+    DevScoresX=[]
+    DevScoresY=[]
+    count= len(x)
+    for i in range(count):
+        DevScoresX.append(x[i]-meanX)
+        DevScoresY.append(y[i]-meanY)
+    #calculate the sum products(sp)& sumSquares(SSx,SSy)
+    Sp=SSx=SSy=0
+    for i in range(count):
+        Sp=Sp+(DevScoresY[i]*DevScoresX[i])
+        SSx=SSx+np.power(DevScoresX[i],2)
+        SSy=SSy+np.power(DevScoresY[i],2)
+    Sx= np.sqrt(SSx)
+    Sy= np.sqrt(SSy)
+    return (Sp /(Sx * Sy))
+
 #----------- Question 1: Feature distribution ----------
 # 1)
    #import the data set
@@ -98,9 +118,11 @@ headers.pop() #remove the class column
 classes=[]
 classranges=[]
 Gatherclasses(data,classes,classranges)
-GenerateAllCorrelationMatrixes(data,classes,classranges)
-
-
+x=data.iloc[classranges[0]:classranges[1],2].values
+y=data.iloc[classranges[0]:classranges[1],3].values
+#GenerateAllCorrelationMatrixes(data,classes,classranges)
+cor=correlation(x,y)
+print(cor)
 
 
 

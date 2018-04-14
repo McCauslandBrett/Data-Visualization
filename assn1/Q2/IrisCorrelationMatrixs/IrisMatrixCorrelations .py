@@ -7,49 +7,12 @@ This is a temporary script file.
 import numpy as np
 import matplotlib.pyplot as plt
 import pandas as pd
-
-#precondition:
-#postcondition:
-def BinData(data,numbins,bins):
-
- print(data)
- set=data
- set.sort()
-
- print(set) #debugger
-
- Size= set.size-1
- largest=set[Size]
- print('largest =',largest)
- smallest=set[0]
- 
- 
- print('smallest =',smallest)
- binwidth= ((largest-smallest)/numbins)
- print('binwidth=',binwidth)
- arraycounter=[] 
- arraycounter.append(0)
- binValue=binwidth+smallest
- 
- bins.append(binValue)
- print('binValue=',binValue)
- index = 0
- for counter in range(Size):
-   if(set[counter]<=binValue):
-    arraycounter[index]=  arraycounter[index]+1
-   else:
-    arraycounter.append(0)
-    index=index+1
-    binValue=binValue+binwidth
-    bins.append(binValue)
-   
-    
- return arraycounter
+import seaborn as sns
 
 #precondition: data is the entire table data set,classes[],classranges[]
 #postcondition: variables contain; classes(class column)
 #classranges (beginning and ending of where  class rows end)
-def Gatherclasses(data,classes,classranges):
+def GatherClassRanges(data,classes,classranges):
  classes = data.iloc[:,4].values
  length = data.iloc[:,4].size
  classranges.append(0)
@@ -62,33 +25,49 @@ def Gatherclasses(data,classes,classranges):
  classranges.append(length)
  return
 
-def GenerateAllscatter(data,classes,classranges):
-    classes = data.iloc[:,4].values  
-    headers=list(data)
-    #print(classes)
-    headers.pop()
-    
-    numcol=len(headers)
-    numclass=(len(classranges)-1)
-    print(numclass)
-    for k in range(numclass):
-      for i in range(numcol):
-        for j in range(i+1,numcol):
-            x=data.iloc[classranges[k]:classranges[k+1],i].values
-            y=data.iloc[classranges[k]:classranges[k+1],j].values
-            plt.scatter(x,y)
-            plt.xlabel(headers[i])
-            plt.ylabel(headers[j])
-            plt.title(headers[i]+' & '+headers[j])
-            print('class flower='+classes[classranges[k]])
-            print('attribute pair='+headers[i]+','+headers[j])
-            plt.savefig(classes[classranges[k]]+' '+headers[i]+' '+headers[j])
-            plt.close()
-    return
-def GenerateAllCorrelationMatrixes():
-    return
-def GenerateCorrelationMatrix():
-    return
+def GenerateAllCorrelationMatrix(data):
+  #seperate the rows to there distinct class
+  classes = data.iloc[:,4].values 
+  classranges=[]
+  GatherClassRanges(data,classes,classranges)
+  
+  #Get the Atribute names excluding class name 
+  headers=list(data)
+  headers.pop()
+  
+  #get the number of columns
+  numcol=len(headers)
+  
+  #get the number of distinct classes
+  numRowranges=(len(classranges)-1)
+ 
+ #for every class of flower
+  for k in range(numRowranges):
+   #generate a matrix initialized to zero
+   correlation_matrix = pd.DataFrame(np.zeros((numcol,numcol)))
+   for i in range (numcol):
+    for j in range(i+1,numcol):
+     x=data.iloc[classranges[k]:classranges[k+1],i].values
+     y=data.iloc[classranges[k]:classranges[k+1],j].values
+     correlation_matrix[i][j] = correlation(x,y)
+     title='Correlation Matrix of '+ classes[classranges[k]]
+   PlotCorrelationMatrix(correlation_matrix,headers,title)
+  return correlation_matrix
+
+def PlotCorrelationMatrix(corMatrix,headers,title):
+ mask = np.zeros_like(corMatrix)
+ mask[np.triu_indices_from(mask)] = True
+
+ with sns.axes_style("white"):
+  plt.figure()
+  plot = sns.heatmap(corMatrix,mask=mask, vmin = 0, vmax = 1, square = True,annot=True,cmap=sns.diverging_palette(220,10, as_cmap = True))
+  plot.set_xticklabels(labels = headers, rotation=20)
+  plot.set_yticklabels(labels = headers, rotation=20)
+  plot.set_title(title)
+  plt.savefig(title)
+  
+  return
+
 def correlation(x,y):
     meanX= np.mean(x)
     meanY = np.mean(y)
@@ -113,18 +92,7 @@ def correlation(x,y):
 # 1)
    #import the data set
 data=pd.read_csv('IrisDataSet.csv')
-headers=list(data) # get every column(attribute) title
-headers.pop() #remove the class column
-classes=[]
-classranges=[]
-Gatherclasses(data,classes,classranges)
-x=data.iloc[classranges[0]:classranges[1],2].values
-y=data.iloc[classranges[0]:classranges[1],3].values
-#GenerateAllCorrelationMatrixes(data,classes,classranges)
-cor=correlation(x,y)
-print(cor)
-
-
+GenerateAllCorrelationMatrix(data)
 
 
 

@@ -1,10 +1,5 @@
-#!/usr/bin/env python3
 # -*- coding: utf-8 -*-
 """
-Created on Mon Apr 16 14:05:58 2018
-
-@author: Brettmccausland
-""""""
 Spyder Editor
 
 This is a temporary script file.
@@ -52,35 +47,8 @@ def BinData(data,numbins,bins):
       if(set[counter]<=binValue):
        #print('set value:',set[counter],'fell under ','Binvalue:',binValue,'added to index loc:',index)
        arraycounter[index]=  arraycounter[index]+1
-    
-# print(arraycounter) 
+ 
  return arraycounter
-
-#precondition:
-#postcondition:
-def Histogram(data,numbins,Title,Ylabel,Xlabel):
- #print('hist')
- bins=[]
- #returns accurances array & bins stores array of bin labels
- binedData=BinData(data,numbins,bins) 
- 
- #setting up graph structure
- x=np.arange(len(binedData))
- bar_width=1
- opacity=0.5
- 
- plt.bar(x,binedData,bar_width,color='green',alpha=opacity,align="edge",linewidth=0.5,edgecolor="black")
- plt.xticks(x+bar_width,bins)
- plt.ylabel(Ylabel)
- plt.xlabel(Xlabel)
- plt.title(Title)
- #filename= Title+Xlabel+str(numbins)
- #plt.savefig(filename)
- #pdf.savefig()  # saves the current figure into a pdf page
- #plt.close()
- plt.show()
- plt.close()
- return
 
 #precondition: data is the entire table data set,classes[],classranges[]
 #postcondition: variables contain; classes(class column)
@@ -99,45 +67,48 @@ def Gatherclasses(data,classes,classranges):
  classranges.append(length)
  return
 
-#precondition: folowing contain; 
-# classes(class column)
-# headers (Attribute titles)
-# classranges (beginning and ending of where  class rows end)
-# Allbinsizes(array of bin sizes) 
-#postcondition:Histogram graphs exported 
-def GenerateHistograms(data,AllbinSizes,headers,classes,classranges):
- print('generateHist')
- classes = data.iloc[:,0].values
- print(classes)
- print(classranges)
- labelY='Occuance'
- #print('classranges', classranges)
+def GenerateBoxplots(data,headers,classes,classranges):
+ classes = data.iloc[:,4].values   
  numAttributes=len(headers)
+ #print(title)
+ print(headers)
  print(numAttributes)
- 
+ print(classranges)
+ p=len(classranges)-1
+ print(p)
  for everyclass in range(len(classranges)-1):
-  cur_class=classes[classranges[everyclass]]
-  # print(cur_class) is selecting the classes correctly
-  for Attribute in range(1,numAttributes):
+  title=classes[classranges[everyclass]]
+  print(title)
+  for Attribute in range(numAttributes):
    df=data.iloc[classranges[everyclass]:classranges[everyclass+1],Attribute].values
-   print('data:',df)
-   for count in range(len(AllbinSizes)):
-    Histogram(df,AllbinSizes[count],cur_class,labelY,headers[Attribute])
+   Boxplots(df,title,'Occurance',headers[Attribute])
+ return
+
+#precondition:
+#postcondition:
+def Boxplots(data,title,Ylabel,Xlabel):
+ filename = 'BoxPlot'+title+Xlabel
+ plt.boxplot(data)
+ plt.title(title)
+ plt.xlabel(Xlabel) 
+ plt.ylabel(Ylabel)
+ plt.savefig(filename)
+ plt.close()
  return
 
 
-#----------- Question 1: Feature distribution ----------
-# 1)
 #import the data set
 data=pd.read_csv('Wine.csv')
+
 headers=list(data) # get every column(attribute) title
 headers.pop(0) #remove the class column
 classes=[]
 classranges=[]
 AllbinSizes=[5,10,50,100]
 Gatherclasses(data,classes,classranges)
-#print(classranges)
-GenerateHistograms(data,AllbinSizes,headers,classes,classranges)
+df = data.iloc[classranges[0]:classranges[1],0].values 
+Boxplots(df,'title','ylabel','xlabel')
+GenerateBoxplots(data,headers,classes,classranges)
 
 
 

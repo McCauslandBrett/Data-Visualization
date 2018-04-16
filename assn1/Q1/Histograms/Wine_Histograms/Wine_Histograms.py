@@ -1,5 +1,10 @@
+#!/usr/bin/env python3
 # -*- coding: utf-8 -*-
 """
+Created on Mon Apr 16 14:05:58 2018
+
+@author: Brettmccausland
+""""""
 Spyder Editor
 
 This is a temporary script file.
@@ -22,9 +27,9 @@ def BinData(data,numbins,bins):
  smallest=set[0]
  
  
- #print('smallest =',smallest)
+ print('smallest =',smallest)
  binwidth= ((largest-smallest)/numbins)
- #print('binwidth=',binwidth)
+ print('binwidth=',binwidth)
  arraycounter=[] 
  arraycounter.append(0)
  binValue=binwidth+smallest
@@ -33,10 +38,10 @@ def BinData(data,numbins,bins):
 
  index = 0
  for counter in range(Size):
-   #print('Binvalue:',binValue)
-   #print('set value:',set[counter])
+   print('Binvalue:',binValue)
+   print('set value:',set[counter])
    if(set[counter]<=binValue):
-    #print('set value:',set[counter],'fell under ','Binvalue:',binValue,'added to index loc:',index)
+    print('set value:',set[counter],'fell under ','Binvalue:',binValue,'added to index loc:',index)
     arraycounter[index]=  arraycounter[index]+1
    else:
     #find the correct bin position
@@ -48,10 +53,10 @@ def BinData(data,numbins,bins):
       arraycounter.append(0)
       index=index+1
       if(set[counter]<=binValue):
-       #print('set value:',set[counter],'fell under ','Binvalue:',binValue,'added to index loc:',index)
+       print('set value:',set[counter],'fell under ','Binvalue:',binValue,'added to index loc:',index)
        arraycounter[index]=  arraycounter[index]+1
     
- #print(arraycounter) 
+ print(arraycounter) 
  return arraycounter
 
 #precondition:
@@ -116,7 +121,7 @@ def GenerateHistograms(data,AllbinSizes,headers,classes,classranges):
 #----------- Question 1: Feature distribution ----------
 # 1)
 #import the data set
-data=pd.read_csv('IrisDataSet.csv')
+data=pd.read_csv('Wine.csv')
 headers=list(data) # get every column(attribute) title
 headers.pop() #remove the class column
 classes=[]

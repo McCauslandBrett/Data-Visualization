@@ -68,31 +68,45 @@ def Gatherclasses(data,classes,classranges):
  return
 
 def GenerateBoxplots(data,headers,classes,classranges):
- classes = data.iloc[:,4].values   
- numAttributes=len(headers)
- #print(title)
- print(headers)
+ print('Generate Boxplots')
+ 
+ classes = data.iloc[:,0].values #good
+ print('classes:', classes)
+ 
+ numAttributes=len(headers) #good
  print(numAttributes)
- print(classranges)
- p=len(classranges)-1
- print(p)
- for everyclass in range(len(classranges)-1):
+ 
+ #print(title)
+ print(headers) #good
+ print(numAttributes) #good
+ print(classranges) #good
+ p = (len(classranges)-1)
+ #print(p)
+ for everyclass in range(p):
   title=classes[classranges[everyclass]]
   print(title)
-  for Attribute in range(numAttributes):
+  for Attribute in range(1,numAttributes):
    df=data.iloc[classranges[everyclass]:classranges[everyclass+1],Attribute].values
+   print('df',df)
    Boxplots(df,title,'Occurance',headers[Attribute])
  return
 
 #precondition:
 #postcondition:
-def Boxplots(data,title,Ylabel,Xlabel):
- filename = 'BoxPlot'+title+Xlabel
+def Boxplots(data,Title,Ylabel,Xlabel):
+ if(Title==1):
+   filename= 'Wine BoxPlot' + ' 1 ' + Xlabel
+ if(Title==2):
+   filename= 'Wine BoxPlot' +' 2 '+ Xlabel
+ if(Title==3):
+   filename= 'Wine BoxPlot' +' 3 '+ Xlabel
+   
  plt.boxplot(data)
- plt.title(title)
+ plt.title(Title)
  plt.xlabel(Xlabel) 
  plt.ylabel(Ylabel)
  plt.savefig(filename)
+ plt.show()
  plt.close()
  return
 
@@ -106,8 +120,8 @@ classes=[]
 classranges=[]
 AllbinSizes=[5,10,50,100]
 Gatherclasses(data,classes,classranges)
-df = data.iloc[classranges[0]:classranges[1],0].values 
-Boxplots(df,'title','ylabel','xlabel')
+#df = data.iloc[classranges[0]:classranges[1],0].values 
+#Boxplots(df,'title','ylabel','xlabel')
 GenerateBoxplots(data,headers,classes,classranges)
 
 

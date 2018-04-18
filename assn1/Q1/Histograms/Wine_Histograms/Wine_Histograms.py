@@ -73,12 +73,12 @@ def Histogram(data,numbins,Title,Ylabel,Xlabel):
  plt.xticks(x+bar_width,bins)
  plt.ylabel(Ylabel)
  plt.xlabel(Xlabel)
- plt.title(Title)
- #filename= Title+Xlabel+str(numbins)
+ T= str(Title)+' '+str(Xlabel)+' '+str(numbins)+' bins'
+ plt.title(T)
+ filename=T
+ 
  #plt.savefig(filename)
- #pdf.savefig()  # saves the current figure into a pdf page
- #plt.close()
- plt.show()
+ #plt.show()
  plt.close()
  return
 
@@ -106,21 +106,21 @@ def Gatherclasses(data,classes,classranges):
 # Allbinsizes(array of bin sizes) 
 #postcondition:Histogram graphs exported 
 def GenerateHistograms(data,AllbinSizes,headers,classes,classranges):
- print('generateHist')
+ #print('generateHist')
  classes = data.iloc[:,0].values
- print(classes)
- print(classranges)
+ #print(classes)
+ #print(classranges)
  labelY='Occuance'
  #print('classranges', classranges)
  numAttributes=len(headers)
- print(numAttributes)
+ #print(numAttributes)
  
  for everyclass in range(len(classranges)-1):
   cur_class=classes[classranges[everyclass]]
   # print(cur_class) is selecting the classes correctly
-  for Attribute in range(1,numAttributes):
+  for Attribute in range(1,4):
    df=data.iloc[classranges[everyclass]:classranges[everyclass+1],Attribute].values
-   print('data:',df)
+   #print('data:',df)
    for count in range(len(AllbinSizes)):
     Histogram(df,AllbinSizes[count],cur_class,labelY,headers[Attribute])
  return

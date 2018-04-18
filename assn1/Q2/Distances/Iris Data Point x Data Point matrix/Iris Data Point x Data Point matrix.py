@@ -25,7 +25,7 @@ def GatherClassRanges(data,classes,classranges):
  classranges.append(length)
  return
 
-def GenerateAllDatanMatrix(data,p):
+def GenerateAllDataMatrix(data,p):
   #seperate the rows to there distinct class
   classes = data.iloc[:,4].values 
   classranges=[]
@@ -36,7 +36,7 @@ def GenerateAllDatanMatrix(data,p):
   headers.pop()
   
   #get the number of columns
-  numcol=len(headers)
+  numcol=len(data)
   
   #get the number of distinct classes
   numRowranges=(len(classranges)-1)
@@ -47,8 +47,8 @@ def GenerateAllDatanMatrix(data,p):
    dist_matrix = pd.DataFrame(np.zeros((numcol,numcol)))
    for i in range (numcol):
     for j in range(i+1,numcol):
-     x=data.iloc[classranges[k]:classranges[k+1],i].values
-     y=data.iloc[classranges[k]:classranges[k+1],j].values
+     x=data.iloc[i,0:3].values
+     y=data.iloc[j,0:3].values
      dist_matrix[i][j] = minkowskiDist(x,y,p)
      title='Data x Data distance Matrix of '+ classes[classranges[k]]
    PlotDistMatrix(dist_matrix,headers,title)
@@ -62,8 +62,7 @@ def PlotDistMatrix(dist_matrix,headers,title):
   plt.figure()
   plot = sns.heatmap(dist_matrix,mask=mask, vmin = 0, vmax = 200, 
   square = True,annot=True,cmap=sns.diverging_palette(220,10, as_cmap = True))
-  plot.set_xticklabels(labels = headers, rotation=20)
-  plot.set_yticklabels(labels = headers, rotation=20)
+
   plot.set_title(title)
   #plt.savefig(title)
   
@@ -82,7 +81,7 @@ def minkowskiDist(x,y,p):
 # 
    #import the data set
 data=pd.read_csv('IrisDataSet.csv')
-GenerateAllDatanMatrix(data,1)
+GenerateAllDataMatrix(data,1)
 
 
 

@@ -15,10 +15,10 @@ def BinData(data,numbins,bins):
  #print(data)
  set=data
  set.sort()
- print(set)
+ #print(set)
  Size= set.size-1
  largest=set[Size]
- print('largest =',largest)
+ #print('largest =',largest)
  smallest=set[0]
  
  
@@ -54,6 +54,11 @@ def BinData(data,numbins,bins):
  #print(arraycounter) 
  return arraycounter
 
+
+
+
+
+
 #precondition:
 #postcondition:
 def Histogram(data,numbins,Title,Ylabel,Xlabel):
@@ -68,11 +73,12 @@ def Histogram(data,numbins,Title,Ylabel,Xlabel):
  opacity=0.5
  
  plt.bar(x,binedData,bar_width,color='green',alpha=opacity,align="edge",linewidth=0.5,edgecolor="black")
- plt.xticks(x+bar_width,bins)
+ plt.xticks(x+bar_width,bins,rotation=20)
  plt.ylabel(Ylabel)
  plt.xlabel(Xlabel)
- plt.title(Title)
- filename= Title+Xlabel+str(numbins)
+ filename= Title+' '+Xlabel+' '+str(numbins)+' bins'
+ plt.title(filename)
+
  plt.savefig(filename)
  #pdf.savefig()  # saves the current figure into a pdf page
  plt.close()

@@ -85,7 +85,7 @@ def GenerateBoxplots(data,headers,classes,classranges):
  for everyclass in range(p):
   title=classes[classranges[everyclass]]
   print(title)
-  for Attribute in range(1,numAttributes):
+  for Attribute in range(1,4):
    df=data.iloc[classranges[everyclass]:classranges[everyclass+1],Attribute].values
    print('df',df)
    Boxplots(df,title,'Occurance',headers[Attribute])
@@ -94,13 +94,8 @@ def GenerateBoxplots(data,headers,classes,classranges):
 #precondition:
 #postcondition:
 def Boxplots(data,Title,Ylabel,Xlabel):
- if(Title==1):
-   filename= 'Wine BoxPlot' + ' 1 ' + Xlabel
- if(Title==2):
-   filename= 'Wine BoxPlot' +' 2 '+ Xlabel
- if(Title==3):
-   filename= 'Wine BoxPlot' +' 3 '+ Xlabel
-   
+ 
+ filename = 'BoxPlot'+ str(Title) + str(Xlabel)   
  plt.boxplot(data)
  plt.title(Title)
  plt.xlabel(Xlabel) 

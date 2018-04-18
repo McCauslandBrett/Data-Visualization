@@ -41,11 +41,11 @@ def GenerateDataMatrix(data,p):
   #get the number of distinct classes
   #numRowranges=(len(classranges)-1)
  
- #for every class of flower
+
   
    #generate a matrix initialized to zero
   matrix = pd.DataFrame(np.zeros((numcol,numcol)))
-  for i in range (numcol):
+  for i in range (1,numcol):
     for j in range(i+1,numcol):
      x=data.iloc[i,0:3].values
      y=data.iloc[j,0:3].values
@@ -79,7 +79,7 @@ def minkowskiDist(x,y,p):
 #-----------  ----------
 # 
    #import the data set
-data=pd.read_csv('IrisDataSet.csv')
+data=pd.read_csv('Wine.csv')
 GenerateDataMatrix(data,1)
 GenerateDataMatrix(data,2)
 

@@ -77,8 +77,8 @@ def Histogram(data,numbins,Title,Ylabel,Xlabel):
  plt.title(T)
  filename=T
  
- #plt.savefig(filename)
- #plt.show()
+ plt.savefig(filename)
+ plt.show()
  plt.close()
  return
 
@@ -122,6 +122,8 @@ def GenerateHistograms(data,AllbinSizes,headers,classes,classranges):
    df=data.iloc[classranges[everyclass]:classranges[everyclass+1],Attribute].values
    #print('data:',df)
    for count in range(len(AllbinSizes)):
+    print(cur_class)
+    print(df)
     Histogram(df,AllbinSizes[count],cur_class,labelY,headers[Attribute])
  return
 
@@ -131,7 +133,7 @@ def GenerateHistograms(data,AllbinSizes,headers,classes,classranges):
 #import the data set
 data=pd.read_csv('Wine.csv')
 headers=list(data) # get every column(attribute) title
-headers.pop(0) #remove the class column
+headers.pop() #remove the class column
 classes=[]
 classranges=[]
 AllbinSizes=[5,10,50,100]

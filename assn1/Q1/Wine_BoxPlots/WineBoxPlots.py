@@ -110,7 +110,7 @@ def Boxplots(data,Title,Ylabel,Xlabel):
 data=pd.read_csv('Wine.csv')
 
 headers=list(data) # get every column(attribute) title
-headers.pop(0) #remove the class column
+#headers.pop(0) #remove the class column
 classes=[]
 classranges=[]
 AllbinSizes=[5,10,50,100]

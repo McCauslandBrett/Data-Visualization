@@ -30,22 +30,9 @@ def GenerateDataMatrix(data,p):
   classes = data.iloc[:,4].values 
   classranges=[]
   GatherClassRanges(data,classes,classranges)
-  
-  #Get the Atribute names excluding class name 
-  headers=list(data)
-  headers.pop()
-  
-  #get the number of columns
-  numcol=len(data)
-  
-  #get the number of distinct classes
-  #numRowranges=(len(classranges)-1)
- 
- #for every class of flower
-  
-   #generate a matrix initialized to zero
-  matrix = pd.DataFrame(np.zeros((numcol,numcol)))
-  for i in range (numcol):
+
+
+  for i in range (1,numcol):
     for j in range(i+1,numcol):
      x=data.iloc[i,0:3].values
      y=data.iloc[j,0:3].values
@@ -60,13 +47,30 @@ def PlotDistMatrix(matrix,headers,title):
  mask[np.triu_indices_from(mask)] = True
 
  with sns.axes_style("white"):
-  #plt.figure()
-  print(matrix)
+  plt.figure()
   plot = sns.heatmap(matrix,mask=mask,cmap="YlGnBu")
   plot.set_title(title)
   plt.savefig(title)
   
   return
+def NearestPos(matrix,numcol,i,j):
+  for k in range(numcol):
+   for e in range(numcol):
+      d = (matrix[i]-x(j))^2+(y(i)-y(j))^2;
+      if (d < min_dist and !(i == k and e ==j) ):
+        min_p1 = p1
+        min_p2 = p2
+        min_dist = d
+ return min_p1,min_p2,min_dist
+
+def NearestDist(data,p):
+  numcol=len(data)
+  matrix = GenerateDataMatrix(data,p)
+  min_dist = 100000000000000000000
+  for i in range(numcol):
+   for j in range(numcol):
+     p1,p2,d = NearestPos(matrix,numcol,i,j)
+   return min_p1,min_p2
 
 def minkowskiDist(x,y,p):
   sum=0
@@ -80,7 +84,7 @@ def minkowskiDist(x,y,p):
 #-----------  ----------
 # 
    #import the data set
-data=pd.read_csv('IrisDataSet.csv')
+data=pd.read_csv('Wine.csv')
 GenerateDataMatrix(data,1)
 GenerateDataMatrix(data,2)
 

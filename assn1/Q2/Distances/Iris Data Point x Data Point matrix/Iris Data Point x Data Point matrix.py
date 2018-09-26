@@ -60,8 +60,8 @@ def PlotDistMatrix(matrix,headers,title):
  mask[np.triu_indices_from(mask)] = True
 
  with sns.axes_style("white"):
-  #plt.figure()
-  print(matrix)
+  plt.figure()
+  #print(matrix)
   plot = sns.heatmap(matrix,mask=mask,cmap="YlGnBu")
   plot.set_title(title)
   plt.savefig(title)
